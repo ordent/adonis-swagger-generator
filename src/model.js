@@ -20,7 +20,7 @@ module.exports = async function index() {
           const properties = JSON.parse(arr);
           // // write model yaml
           let source = await fs.readFile(
-            path.resolve(`${process.cwd()}/src/model.yaml`),
+            path.resolve(`${__dirname}/model.yaml`),
             "utf8"
           );
           let template = handlebars.compile(source);
@@ -36,7 +36,7 @@ module.exports = async function index() {
             contents
           );
           source = await fs.readFile(
-            path.resolve(`${process.cwd()}/src/tags.yaml`),
+            path.resolve(`${__dirname}/tags.yaml`),
             "utf8"
           );
           template = handlebars.compile(source);

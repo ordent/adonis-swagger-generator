@@ -4,6 +4,8 @@ const path = require("path");
 const handlebars = require("handlebars");
 
 module.exports = async function index() {
+  // console.log(__dirname, __filename);
+
   let routes = await await fs
     .readFile(path.resolve("./start/routes.js"), "utf8")
     .catch((e) => {
@@ -122,7 +124,7 @@ module.exports = async function index() {
           return aString ? aString : "sample";
         });
         const source = await fs.readFile(
-          path.resolve(`${process.cwd()}/src/controller.yaml`),
+          path.resolve(`${__dirname}/controller.yaml`),
           "utf8"
         );
         const template = handlebars.compile(source);
