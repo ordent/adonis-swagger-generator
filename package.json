@@ -23,7 +23,7 @@
     "url": "https://github.com/ordent/adonis-swagger-generator/issues"
   },
   "homepage": "https://github.com/ordent/adonis-swagger-generator#readme",
-  "devDependencies": {
+  "dependencies": {
     "glob": "^7.1.6",
     "handlebars": "^4.7.6"
   },
