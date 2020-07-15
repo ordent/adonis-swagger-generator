@@ -1,0 +1,8 @@
+definitions:
+  {{model}}:
+    type: object
+    properties:
+      {{#each properties}}
+      {{this}}:
+        type: string
+      {{/each}}

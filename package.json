@@ -1,0 +1,33 @@
+{
+  "name": "@ordent/adonis-swagger-generator",
+  "version": "1.0.0",
+  "description": "generating swagger yaml for swagger (automated)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ordent/adonis-swagger-generator.git"
+  },
+  "keywords": [
+    "swagger",
+    "adonis",
+    "generator",
+    "adonis",
+    "adonisjs"
+  ],
+  "author": "Dimas Satrio (dimassrio)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ordent/adonis-swagger-generator/issues"
+  },
+  "homepage": "https://github.com/ordent/adonis-swagger-generator#readme",
+  "devDependencies": {
+    "glob": "^7.1.6",
+    "handlebars": "^4.7.6"
+  },
+  "bin": {
+    "oasg": "./index.js"
+  }
+}

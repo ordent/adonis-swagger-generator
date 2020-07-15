@@ -1,0 +1,4 @@
+tags:
+{{#each models}}
+- name: {{this}}
+{{/each}}
