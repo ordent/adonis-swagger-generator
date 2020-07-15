@@ -122,7 +122,7 @@ module.exports = async function index() {
           return aString ? aString : "sample";
         });
         const source = await fs.readFile(
-          path.resolve("./src/controller.yaml"),
+          path.resolve(`${process.cwd()}/src/controller.yaml`),
           "utf8"
         );
         const template = handlebars.compile(source);
