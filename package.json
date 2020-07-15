@@ -1,6 +1,6 @@
 {
   "name": "@ordent/adonis-swagger-generator",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "generating swagger yaml for swagger (automated)",
   "main": "index.js",
   "scripts": {
