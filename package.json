@@ -25,7 +25,8 @@
   "homepage": "https://github.com/ordent/adonis-swagger-generator#readme",
   "dependencies": {
     "glob": "^7.1.6",
-    "handlebars": "^4.7.6"
+    "handlebars": "^4.7.6",
+    "swagger-jsdoc": "^4.0.0"
   },
   "bin": {
     "oasg": "./index.js"
