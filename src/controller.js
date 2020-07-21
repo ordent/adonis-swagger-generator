@@ -88,9 +88,6 @@ module.exports = async function index() {
               ["get", "post", "put", "delete"].forEach((x) => {
                 // console.log(x + 'start')
                 let routes = iterator.routes;
-                if (x === "post") {
-                  routes = routes + "/create";
-                }
                 if (x === "put" || x === "delete") {
                   routes = routes + "/{id}";
                 }
