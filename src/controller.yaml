@@ -2,17 +2,27 @@
 {{this.routes}}:
   {{#each this.method}}
   {{this.method}}:
-    tags: 
+    tags:
       - {{this.tags}}
     description: "{{state this.description}}"
     produces:
       - application/json
+    {{#ifCond this.path this.body}}
     parameters:
     {{#each this.path}}
-    - name: {{this}}
-      in: path
-      type: integer
+      - name: {{this}}
+        in: path
+        type: integer
     {{/each}}
+    {{#if this.body}}
+      - in: "body"
+        name: "body"
+        description: "{{this.body.description}}"
+        required: true
+        schema:
+          $ref: "{{this.body.schema}}"
+    {{/if}}
+    {{/ifCond}}
     responses:
       200:
         description: "{{state this.description}}"

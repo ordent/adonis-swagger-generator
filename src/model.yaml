@@ -1,8 +1,14 @@
 definitions:
   {{model}}:
     type: object
+    description: "relations \n
+      {{this.relations}}"
     properties:
       {{#each properties}}
-      {{this}}:
-        type: string
+      {{this.name}}:
+        type: {{this.type}}
+        {{#if this.format}}
+        format: {{this.format}}
+        {{/if}}
+        description: {{this.description}}
       {{/each}}
