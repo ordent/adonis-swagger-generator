@@ -89,7 +89,6 @@ function getRelations(model) {
     arr = arr[1].replace(/'/g, '"').replace('",]', '"]');
     arr = arr.replace("[", "").replace("]", "");
     arr = arr.replace(",", "\\n");
-    console.log(arr);
     return arr;
     // const result = JSON.parse(arr)
   }
