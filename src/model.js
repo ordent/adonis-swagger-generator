@@ -32,7 +32,12 @@ module.exports = async function index() {
               model: modelName,
               properties: properties,
             });
-            await writeModel(contents);
+            let minContents = template({
+              model: "_" + modelName,
+              properties: makeMinimumProperty(properties),
+            });
+            await writeModel(modelName, contents);
+            await writeModel("_" + modelName, minContents);
             source = await fs.readFile(
               path.resolve(`${__dirname}/tags.yaml`),
               "utf8"
@@ -54,12 +59,12 @@ module.exports = async function index() {
   return promise;
 };
 
-async function writeModel(contents) {
+async function writeModel(modelName, contents) {
   const exist = await fs.readdir("docs_generated/Models").catch(async (e) => {
     await fs.mkdir("docs_generated/Models", { recursive: true });
     console.log("folder created");
   });
-  await fs.writeFile(`docs_generated/Models/${contents.model}.yaml`, contents);
+  await fs.writeFile(`docs_generated/Models/${modelName}.yaml`, contents);
 }
 
 function getType(name) {
@@ -91,4 +96,14 @@ function getType(name) {
           "this property is generated, type may be not string");
   }
   return property;
+}
+
+function makeMinimumProperty(props) {
+  return props.filter((val) => {
+    return !(
+      val.name === "id" ||
+      val.name === "created_at" ||
+      val.name === "updated_at"
+    );
+  });
 }
