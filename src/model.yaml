@@ -1,6 +1,8 @@
 definitions:
   {{model}}:
     type: object
+    description: "relations \n
+      {{this.relations}}"
     properties:
       {{#each properties}}
       {{this.name}}:

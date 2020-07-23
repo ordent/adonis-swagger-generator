@@ -28,6 +28,7 @@ module.exports = async function index() {
             let contents = template({
               model: modelName,
               properties: properties,
+              relations: relations ? relations : null,
             });
             let minContents = template({
               model: "_" + modelName,
@@ -87,8 +88,10 @@ function getRelations(model) {
     }
     arr = arr[1].replace(/'/g, '"').replace('",]', '"]');
     arr = arr.replace("[", "").replace("]", "");
-    arr = arr.split(",");
-    return JSON.parse(JSON.stringify(arr));
+    arr = arr.replace(",", "\\n");
+    console.log(arr);
+    return arr;
+    // const result = JSON.parse(arr)
   }
   return null;
 }
