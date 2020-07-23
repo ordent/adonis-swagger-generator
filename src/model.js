@@ -12,16 +12,13 @@ module.exports = async function index() {
           let modelName = iterator.replace(".js", "").split("/");
           modelName = modelName[modelName.length - 1];
           models.push(modelName);
-          const model = await fs.readFile(path.resolve(iterator), "utf8");
-          const temp = model.split("static get properties() {");
-          if (temp && temp.length > 1) {
-            const content = temp[1].split("}");
-            let arr = content[0].replace(/\s/g, "").split("return");
-            arr = arr[1].replace(/'/g, '"').replace('",]', '"]');
-            const properties = JSON.parse(arr).map((val) => {
-              return getType(val);
-            });
 
+          const model = await fs.readFile(path.resolve(iterator), "utf8");
+
+          let properties = getProperties(model);
+          let relations = getRelations(model);
+
+          if (properties) {
             // // write model yaml
             let source = await fs.readFile(
               path.resolve(`${__dirname}/model.yaml`),
@@ -65,6 +62,35 @@ async function writeModel(modelName, contents) {
     console.log("folder created");
   });
   await fs.writeFile(`docs_generated/Models/${modelName}.yaml`, contents);
+}
+
+function getProperties(model) {
+  const temp = model.split("static get properties() {");
+  if (temp && temp.length > 1) {
+    const content = temp[1].split("}");
+    let arr = content[0].replace(/\s/g, "").split("return");
+    arr = arr[1].replace(/'/g, '"').replace('",]', '"]');
+    return JSON.parse(arr).map((val) => {
+      return getType(val);
+    });
+  }
+  return null;
+}
+
+function getRelations(model) {
+  const temp = model.split("static get relations() {");
+  if (temp && temp.length > 1) {
+    const content = temp[1].split("}\n");
+    let arr = content[0].replace(/\s/g, "").split("return");
+    if (arr[1]) {
+      arr[1] = arr[1].indexOf("}]") === -1 ? arr[1] + "}]" : arr[1];
+    }
+    arr = arr[1].replace(/'/g, '"').replace('",]', '"]');
+    arr = arr.replace("[", "").replace("]", "");
+    arr = arr.split(",");
+    return JSON.parse(JSON.stringify(arr));
+  }
+  return null;
 }
 
 function getType(name) {
