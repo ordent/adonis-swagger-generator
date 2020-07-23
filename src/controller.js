@@ -85,10 +85,13 @@ module.exports = async function index() {
               }
               ep.method.push(method);
             } else {
-              ["get", "post", "put", "delete"].forEach((x) => {
+              ["get", "getById", "post", "put", "delete"].forEach((x) => {
                 // console.log(x + 'start')
                 let routes = iterator.routes;
-                if (x === "put" || x === "delete") {
+                if (x === "post") {
+                  routes = routes + "/create";
+                }
+                if (x === "getById" || x === "put" || x === "delete") {
                   routes = routes + "/{id}";
                 }
                 ep = endpoints.find((e) => e.routes === routes);
@@ -102,7 +105,7 @@ module.exports = async function index() {
                   // console.log(endpoints)
                 }
                 const method = {};
-                method.method = x;
+                method.method = x === "getById" ? "get" : x;
                 method.description = iterator.description;
                 method.tags = iterator.tags;
                 if (routes.includes("{")) {
