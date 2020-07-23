@@ -18,7 +18,10 @@ module.exports = async function index() {
             const content = temp[1].split("}");
             let arr = content[0].replace(/\s/g, "").split("return");
             arr = arr[1].replace(/'/g, '"').replace('",]', '"]');
-            const properties = JSON.parse(arr);
+            const properties = JSON.parse(arr).map((val) => {
+              return getType(val);
+            });
+
             // // write model yaml
             let source = await fs.readFile(
               path.resolve(`${__dirname}/model.yaml`),
@@ -29,16 +32,7 @@ module.exports = async function index() {
               model: modelName,
               properties: properties,
             });
-            const exist = await fs
-              .readdir("docs_generated/Models")
-              .catch(async (e) => {
-                await fs.mkdir("docs_generated/Models", { recursive: true });
-                console.log("folder created");
-              });
-            await fs.writeFile(
-              `docs_generated/Models/${modelName}.yaml`,
-              contents
-            );
+            await writeModel(modelName, contents);
             source = await fs.readFile(
               path.resolve(`${__dirname}/tags.yaml`),
               "utf8"
@@ -59,3 +53,42 @@ module.exports = async function index() {
   });
   return promise;
 };
+
+async function writeModel(modelName, contents) {
+  const exist = await fs.readdir("docs_generated/Models").catch(async (e) => {
+    await fs.mkdir("docs_generated/Models", { recursive: true });
+    console.log("folder created");
+  });
+  await fs.writeFile(`docs_generated/Models/${modelName}.yaml`, contents);
+}
+
+function getType(name) {
+  const property = {
+    name,
+  };
+  const switchName = name.indexOf("_id") !== -1 ? "id" : name;
+  switch (switchName) {
+    case "id":
+      property.type = "integer";
+      property.description =
+        "this property is generated, type may be not integer";
+      break;
+    case "created_at":
+      (property.type = "string"),
+        (property.format = "date-time"),
+        (property.description =
+          "this property is generated, type may be not string");
+      break;
+    case "updated_at":
+      (property.type = "string"),
+        (property.format = "date-time"),
+        (property.description =
+          "this property is generated, type may be not string");
+      break;
+    default:
+      (property.type = "string"),
+        (property.description =
+          "this property is generated, type may be not string");
+  }
+  return property;
+}
