@@ -88,11 +88,21 @@ module.exports = async function index() {
               ["get", "getById", "post", "put", "delete"].forEach((x) => {
                 // console.log(x + 'start')
                 let routes = iterator.routes;
+                let body = null;
                 if (x === "post") {
                   routes = routes + "/create";
+                  body = {
+                    description: `${iterator.tags} object that needs to be added`,
+                    schema: `#/definitions/_${iterator.tags}`,
+                  };
                 }
                 if (x === "getById" || x === "put" || x === "delete") {
                   routes = routes + "/{id}";
+                  if (x === "put")
+                    body = {
+                      description: `${iterator.tags} object that needs to be update`,
+                      schema: `#/definitions/_${iterator.tags}`,
+                    };
                 }
                 ep = endpoints.find((e) => e.routes === routes);
                 // console.log(ep, routes, x)
@@ -108,6 +118,7 @@ module.exports = async function index() {
                 method.method = x === "getById" ? "get" : x;
                 method.description = iterator.description;
                 method.tags = iterator.tags;
+                if (body) method.body = body;
                 if (routes.includes("{")) {
                   method.path = [];
                   let regex = /\{(.*?)\}/;
@@ -126,6 +137,13 @@ module.exports = async function index() {
           handlebars.registerHelper("state", function (aString) {
             return aString ? aString : "sample";
           });
+          handlebars.registerHelper("ifCond", function (path, body, options) {
+            if (path || body) {
+              return options.fn(this);
+            }
+            return null;
+          });
+
           const source = await fs.readFile(
             path.resolve(`${__dirname}/controller.yaml`),
             "utf8"
