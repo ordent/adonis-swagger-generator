@@ -32,7 +32,7 @@ module.exports = async function index() {
               model: modelName,
               properties: properties,
             });
-            await writeModel(modelName, contents);
+            await writeModel(contents);
             source = await fs.readFile(
               path.resolve(`${__dirname}/tags.yaml`),
               "utf8"
@@ -54,12 +54,12 @@ module.exports = async function index() {
   return promise;
 };
 
-async function writeModel(modelName, contents) {
+async function writeModel(contents) {
   const exist = await fs.readdir("docs_generated/Models").catch(async (e) => {
     await fs.mkdir("docs_generated/Models", { recursive: true });
     console.log("folder created");
   });
-  await fs.writeFile(`docs_generated/Models/${modelName}.yaml`, contents);
+  await fs.writeFile(`docs_generated/Models/${contents.model}.yaml`, contents);
 }
 
 function getType(name) {
