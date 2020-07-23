@@ -33,6 +33,7 @@ module.exports = async function index() {
             let minContents = template({
               model: "_" + modelName,
               properties: makeMinimumProperty(properties),
+              relations: relations ? relations : null,
             });
             await writeModel(modelName, contents);
             await writeModel("_" + modelName, minContents);
