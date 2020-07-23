@@ -2,17 +2,19 @@
 {{this.routes}}:
   {{#each this.method}}
   {{this.method}}:
-    tags: 
+    tags:
       - {{this.tags}}
     description: "{{state this.description}}"
     produces:
       - application/json
+    {{#if this.path}}
     parameters:
     {{#each this.path}}
     - name: {{this}}
       in: path
       type: integer
     {{/each}}
+    {{/if}}
     responses:
       200:
         description: "{{state this.description}}"
