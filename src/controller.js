@@ -90,7 +90,7 @@ module.exports = async function index() {
                 let routes = iterator.routes;
                 let body = null;
                 if (x === "post") {
-                  routes = routes + "/create";
+                  routes = routes;
                   body = {
                     description: `${iterator.tags} object that needs to be added`,
                     schema: `#/definitions/_${iterator.tags}`,
